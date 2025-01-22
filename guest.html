@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misafir Sayfası</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+        }
+
+        section {
+            margin: 20px;
+            padding: 15px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #4CAF50;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+
+        li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        button {
+            padding: 8px 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Misafir Sayfası</h1>
+    <p>Projeleri görüntüleyebilir ve katılım isteği gönderebilirsiniz.</p>
+</header>
+
+<section id="projects-section">
+    <h2>Projeler</h2>
+    <ul id="project-list">
+        <!-- Projeler burada listelenecek -->
+    </ul>
+</section>
+
+<script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore-compat.js"></script>
+<script>
+    // Firebase yapılandırması
+    const firebaseConfig = {
+        apiKey: "AIzaSyA5RHUOS9r7sNUQl3gzWIsZOCWzanBVXAg",
+        authDomain: "sosyalsorumluluk-43982.firebaseapp.com",
+        projectId: "sosyalsorumluluk-43982",
+        storageBucket: "sosyalsorumluluk-43982.appspot.com",
+        messagingSenderId: "166386319825",
+        appId: "1:166386319825:web:0c9dfba06ba185c5ea20f0",
+        measurementId: "G-3ESWM7PLFP"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Projeleri listeleme
+    const projectList = document.getElementById("project-list");
+
+    db.collection("projects").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+
+            const projectItem = document.createElement("li");
+            projectItem.textContent = data.name;
+
+            // İstek gönder butonu ekle
+            const requestButton = document.createElement("button");
+            requestButton.textContent = "Katılım İsteği Gönder";
+            requestButton.addEventListener("click", () => {
+                const guestEmail = prompt("Lütfen email adresinizi giriniz:"); // Email bilgisi alınır
+                if (guestEmail) {
+                    db.collection("requests").add({
+                        projectName: data.name, // Proje adı
+                        guestEmail: guestEmail, // Misafirin email adresi
+                        timestamp: new Date(), // Oluşturulma zamanı
+                        status: "pending" // Varsayılan durum
+                    }).then(() => {
+                        alert("Katılım isteğiniz başarıyla gönderildi!");
+                    }).catch((error) => {
+                        console.error("Katılım isteği gönderim hatası:", error);
+                    });
+                }
+            });
+
+            projectItem.appendChild(requestButton);
+            projectList.appendChild(projectItem);
+        });
+    }).catch((error) => {
+        console.error("Proje listesi hatası:", error);
+    });
+</script>
+
+</body>
+</html>

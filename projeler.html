@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeler</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+        }
+        #projects-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            padding: 20px;
+        }
+        .project-card {
+            width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            background-color: #fff;
+            text-align: center;
+        }
+        .project-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .project-card h3 {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        .project-card p {
+            padding: 0 10px 10px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Projeler</h1>
+    <p>Geçmiş projelerimizi görüntüleyebilirsiniz.</p>
+</header>
+
+<section id="projects-gallery">
+    <!-- Projeler buraya yüklenecek -->
+</section>
+
+<script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore-compat.js"></script>
+<script>
+    // Firebase yapılandırması
+    const firebaseConfig = {
+        apiKey: "AIzaSyA5RHUOS9r7sNUQl3gzWIsZOCWzanBVXAg",
+        authDomain: "sosyalsorumluluk-43982.firebaseapp.com",
+        projectId: "sosyalsorumluluk-43982",
+        storageBucket: "sosyalsorumluluk-43982.appspot.com",
+        messagingSenderId: "166386319825",
+        appId: "1:166386319825:web:0c9dfba06ba185c5ea20f0",
+        measurementId: "G-3ESWM7PLFP"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Projeleri Firestore'dan çek ve listele
+    const projectsGallery = document.getElementById("projects-gallery");
+
+    db.collection("projects").get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+
+            // Proje kartı oluştur
+            const projectCard = document.createElement("div");
+            projectCard.classList.add("project-card");
+
+            const projectImage = document.createElement("img");
+            projectImage.src = data.image || "https://via.placeholder.com/300";
+            projectCard.appendChild(projectImage);
+
+            const projectName = document.createElement("h3");
+            projectName.textContent = data.name;
+            projectCard.appendChild(projectName);
+
+            const projectDescription = document.createElement("p");
+            projectDescription.textContent = data.description || "Bu projeye ait bir açıklama bulunmamaktadır.";
+            projectCard.appendChild(projectDescription);
+
+            projectsGallery.appendChild(projectCard);
+        });
+    }).catch((error) => {
+        console.error("Proje yükleme hatası:", error);
+    });
+</script>
+
+</body>
+</html>

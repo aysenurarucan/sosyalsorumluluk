@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sosyal Sorumluluk Projesi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #333;
+        }
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            text-align: center;
+        }
+        nav a:hover {
+            background-color: #575757;
+        }
+        .container {
+            padding: 20px;
+        }
+        footer {
+        text-align: center;
+        padding: 10px;
+        background-color: #333;
+        color: white;
+        width: 100%;
+        }
+        header .login-link {
+        position: absolute;
+        top: 40px;
+        right: 40px;
+        background-color: white;
+        color: #4CAF50;
+        padding: 20px 35px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 25px;
+        font-weight: bold;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s, color 0.3s;
+        }
+        header .login-link:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+
+
+    </style>
+</head>
+<body>
+
+
+<header>
+    <h1>Sosyal Sorumluluk Projesi</h1>
+    <p>Birlikte daha güzel bir dünya için çalışıyoruz.</p>
+    <a href="login.html" class="login-link">Giriş Yap</a>
+</header>
+
+<nav>
+    <a href="hakkinda.html">Hakkında</a>
+    <a href="projeler.html">Projeler</a>
+    <a href="iletisim.html">İletişim</a>
+</nav>
+
+
+<div class="container">
+    <section id="hakkinda">
+        <h2>Hakkında</h2>
+        <p>Bu proje, topluma fayda sağlamak ve sosyal sorumluluk bilincini artırmak amacıyla başlatılmıştır. Amacımız, çevreye, eğitime ve topluma katkı sağlamaktır.</p>
+    </section>
+
+    <section id="projeler">
+        <h2>Projeler</h2>
+        <ul id="project-list">
+            <!-- Firebase'den gelen veriler buraya yüklenecek -->
+        </ul>
+    </section>
+
+    <!-- Proje Ekleme Formu -->
+    <section id="proje-ekle">
+    <h2>Proje Ekle</h2>
+    <form id="add-project-form">
+        <input type="text" id="project-name" placeholder="Proje adı" required>
+        <button type="submit">Ekle</button>
+    </form>
+    </section>
+
+
+    <section id="iletisim">
+        <h2>İletişim</h2>
+        <p>Bizimle iletişime geçmek için aşağıdaki bilgileri kullanabilirsiniz:</p>
+        <p>Email: sosyalproje@example.com</p>
+        <p>Telefon: +90 551 137 55 45</p>
+    </section>
+</div>
+
+<footer>
+    <p>&copy; 2025 Sosyal Sorumluluk Projesi. Tüm hakları saklıdır.</p>
+</footer>
+
+<!-- Firebase Scriptleri -->
+<script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore-compat.js"></script>
+<script>
+    const firebaseConfig = {
+        apiKey: "AIzaSyA5RHUOS9r7sNUQl3gzWIsZOCWzanBVXAg",
+        authDomain: "sosyalsorumluluk-43982.firebaseapp.com",
+        projectId: "sosyalsorumluluk-43982",
+        storageBucket: "sosyalsorumluluk-43982.appspot.com",
+        messagingSenderId: "166386319825",
+        appId: "1:166386319825:web:0c9dfba06ba185c5ea20f0",
+        measurementId: "G-3ESWM7PLFP"
+    };
+
+    // Firebase başlatma
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+
+
+    console.log("Firestore bağlantısı test ediliyor...");
+    db.collection("projects").get()
+    .then((querySnapshot) => {
+        console.log("Firestore'dan veri alındı:");
+        querySnapshot.forEach((doc) => {
+            console.log(doc.id, "=>", doc.data());
+        });
+    })
+    .catch((error) => {
+        console.error("Firestore bağlantı hatası:", error);
+    });
+
+
+
+// Firestore'dan veri çekme ve listeleme
+const projectList = document.getElementById("project-list");
+db.collection("projects").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+        // Liste öğesi oluştur
+        const project = document.createElement("li");
+        project.textContent = doc.data().name;
+
+        // Sil butonu oluştur
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Sil";
+        deleteButton.style.marginLeft = "10px";
+
+        // Silme işlemini tetikleyen olay dinleyicisi
+        deleteButton.addEventListener("click", () => {
+            if (confirm("Bu projeyi silmek istediğinize emin misiniz?")) {
+                db.collection("projects").doc(doc.id).delete()
+                    .then(() => {
+                        alert("Proje başarıyla silindi!");
+                        location.reload(); // Listeyi güncellemek için sayfayı yenile
+                    })
+                    .catch((error) => {
+                        console.error("Proje silme hatası:", error);
+                    });
+            }
+        });
+
+        // Liste öğesine sil butonunu ekle
+        project.appendChild(deleteButton);
+        projectList.appendChild(project);
+    });
+}).catch((error) => {
+    console.error("Veritabanı hatası:", error);
+});
+
+
+        // Formu dinleyerek yeni proje ekleme
+        const addProjectForm = document.getElementById("add-project-form");
+
+addProjectForm.addEventListener("submit", (e) => {
+    e.preventDefault(); // Formun yeniden yüklenmesini engelle
+
+    const projectName = document.getElementById("project-name").value;
+
+    // Firestore'a yeni proje ekleme
+    db.collection("projects").add({
+        name: projectName
+    })
+    .then(() => {
+        alert("Proje başarıyla eklendi!");
+        location.reload(); // Sayfayı yenileyerek yeni projeyi göster
+    })
+    .catch((error) => {
+        console.error("Proje ekleme hatası:", error);
+    });
+});
+
+
+</script>
+
+</body>
+</html>

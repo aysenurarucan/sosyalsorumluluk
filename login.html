@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kullanıcı Girişi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background-color: #fff;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px 40px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .login-container h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .login-container button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 0;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-container button:hover {
+            background-color: #45a049;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        footer a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Kullanıcı Girişi</h2>
+        <button id="volunteer-login">Gönüllü Girişi</button>
+        <button id="guest-login">Misafir Girişi</button>
+        <footer>
+            <p>&copy; 2025 Sosyal Sorumluluk Projesi. <a href="index.html">Ana Sayfa</a></p>
+        </footer>
+    </div>
+
+    <!-- JavaScript Kodları -->
+    <script>
+        const volunteerLoginButton = document.getElementById("volunteer-login");
+        const guestLoginButton = document.getElementById("guest-login");
+
+        // Gönüllü girişine yönlendirme
+        volunteerLoginButton.addEventListener("click", () => {
+            window.location.href = "volunteer.html"; // Gönüllü sayfasına yönlendir
+        });
+
+        // Misafir girişine yönlendirme
+        guestLoginButton.addEventListener("click", () => {
+            window.location.href = "guest.html"; // Misafir sayfasına yönlendir
+        });
+    </script>
+</body>
+</html>

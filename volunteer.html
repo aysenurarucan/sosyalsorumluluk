@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gönüllü Sayfası</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+        }
+        section {
+            margin: 20px;
+            padding: 15px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #4CAF50;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+        li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            font-size: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        button {
+            padding: 8px 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button.reject-button {
+            background-color: #e74c3c;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button.reject-button:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Gönüllü Sayfası</h1>
+    <p>Misafirlerin proje isteklerini görebilir, kabul edebilir veya reddedebilirsiniz.</p>
+</header>
+
+<section id="requests-section">
+    <h2>Misafir İstekleri</h2>
+    <ul id="requests-list">
+        <!-- Misafir istekleri burada görünecek -->
+    </ul>
+</section>
+
+<section id="accepted-requests-section">
+    <h2>Kabul Edilen İstekler</h2>
+    <ul id="accepted-requests-list">
+        <!-- Kabul edilen istekler burada görünecek -->
+    </ul>
+</section>
+
+<script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.17.2/firebase-firestore-compat.js"></script>
+<script>
+    // Firebase yapılandırması
+    const firebaseConfig = {
+        apiKey: "AIzaSyA5RHUOS9r7sNUQl3gzWIsZOCWzanBVXAg",
+        authDomain: "sosyalsorumluluk-43982.firebaseapp.com",
+        projectId: "sosyalsorumluluk-43982",
+        storageBucket: "sosyalsorumluluk-43982.appspot.com",
+        messagingSenderId: "166386319825",
+        appId: "1:166386319825:web:0c9dfba06ba185c5ea20f0",
+        measurementId: "G-3ESWM7PLFP"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Misafir isteklerini listeleme
+    db.collection("requests").orderBy("timestamp", "asc").onSnapshot((snapshot) => {
+        const requestsList = document.getElementById("requests-list");
+        requestsList.innerHTML = ""; // Listeyi temizle
+
+        snapshot.forEach((doc) => {
+            const data = doc.data();
+            const requestItem = document.createElement("li");
+
+            requestItem.innerHTML = `
+                <span>Proje: ${data.projectName} - Tarih: ${new Date(
+                    data.timestamp.toDate()
+                ).toLocaleString()}</span>
+                <div>
+                    <button class="accept-button">Kabul Et</button>
+                    <button class="reject-button">Reddet</button>
+                </div>
+            `;
+
+            // Kabul et butonu
+            const acceptButton = requestItem.querySelector(".accept-button");
+            acceptButton.addEventListener("click", () => {
+                db.collection("requests").doc(doc.id).update({
+                    status: "accepted"
+                }).then(() => {
+                    alert("İstek kabul edildi!");
+                }).catch((error) => {
+                    console.error("İstek güncelleme hatası:", error);
+                });
+            });
+
+            // Reddet butonu
+            const rejectButton = requestItem.querySelector(".reject-button");
+            rejectButton.addEventListener("click", () => {
+                if (confirm("Bu isteği silmek istediğinizden emin misiniz?")) {
+                    db.collection("requests").doc(doc.id).delete()
+                        .then(() => {
+                            alert("İstek reddedildi!");
+                        }).catch((error) => {
+                            console.error("İstek silme hatası:", error);
+                        });
+                }
+            });
+
+            requestsList.appendChild(requestItem);
+        });
+    });
+
+    // Kabul edilen istekleri listeleme
+    db.collection("requests").where("status", "==", "accepted").onSnapshot((snapshot) => {
+        const acceptedRequestsList = document.getElementById("accepted-requests-list");
+        acceptedRequestsList.innerHTML = ""; // Listeyi temizle
+        snapshot.forEach((doc) => {
+            const data = doc.data();
+            const acceptedItem = document.createElement("li");
+            acceptedItem.textContent = `Proje: ${data.projectName} - Misafir Email: ${data.guestEmail}`;
+            acceptedRequestsList.appendChild(acceptedItem);
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İletişim</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+        }
+
+        section {
+            margin: 20px;
+            padding: 15px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #4CAF50;
+            text-align: center;
+        }
+
+        .contact-info {
+            text-align: center;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        form input, form textarea, form button {
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        form button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>İletişim</h1>
+    <p>Bize ulaşmak için aşağıdaki formu doldurun veya iletişim bilgilerini kullanın.</p>
+</header>
+
+<section>
+    <h2>İletişim Bilgileri</h2>
+    <div class="contact-info">
+        <p><strong>Email:</strong> sosyalproje@example.com</p>
+        <p><strong>Telefon:</strong> +90 551 137 55 45</p>
+        <p><strong>Adres:</strong> Sosyal Sorumluluk Merkezi, İstanbul, Türkiye</p>
+    </div>
+</section>
+
+<section>
+    <h2>Bize Mesaj Gönderin</h2>
+    <form id="contact-form">
+        <input type="text" placeholder="Adınız ve Soyadınız" required>
+        <input type="email" placeholder="Email Adresiniz" required>
+        <textarea placeholder="Mesajınız" rows="5" required></textarea>
+        <button type="submit">Gönder</button>
+    </form>
+</section>
+
+<script>
+    const contactForm = document.getElementById('contact-form');
+    contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert("Mesajınız başarıyla gönderildi! Teşekkür ederiz.");
+        contactForm.reset();
+    });
+</script>
+
+</body>
+</html>
