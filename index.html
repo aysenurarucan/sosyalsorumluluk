@@ -4,61 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toplumsal Duyarlılık Projesi</title>
-    <style>
+<style>
     body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f9;
-}
+    }
 
-header {
+    header {
     background-color: #4CAF50;
     color: white;
     padding: 10px 20px;
     text-align: center;
     position: relative; /* Login butonu için relative konum */
-}
+    }
 
-nav {
+    nav {
     display: flex;
     justify-content: center;
     background-color: #333;
-}
+    }
 
-nav a {
+    nav a {
     color: white;
     padding: 14px 20px;
     text-decoration: none;
     text-align: center;
-}
+    }
 
-nav a:hover {
+    nav a:hover {
     background-color: #575757;
-}
+    }
 
-.container {
+    .container {
     padding: 20px;
-}
+    }
 
-footer {
+    footer {
     text-align: center;
     padding: 10px;
     background-color: #333;
     color: white;
     width: 100%;
-}
+    }
 
-header .login-link {
+    header .login-link {
     position: absolute;
-    top: 20px; /* Daha mobil dostu hale getirmek için küçültüldü */
-    right: 20px; /* Kenardan mesafesi azaltıldı */
+    top: 20px;
+    right: 20px;
     background-color: white;
     color: #4CAF50;
-    padding: 10px 20px; /* Butonun boyutları küçültüldü */
+    padding: 15px 30px; /* Buton boyutunu artırmak için padding yükseltildi */
     text-decoration: none;
-    border-radius: 5px;
-    font-size: 18px; /* Yazı boyutu küçültüldü */
+    border-radius: 8px; /* Hafif yuvarlama için artırıldı */
+    font-size: 20px; /* Yazı boyutu büyütüldü */
     font-weight: bold;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s, color 0.3s;
@@ -72,16 +72,16 @@ header .login-link:hover {
 /* Mobil cihazlar için medya sorguları */
 @media (max-width: 768px) {
     header .login-link {
-        position: static; /* Butonu sabit konuma alır */
-        display: block; /* Tam genişlikte görünmesi için blok yap */
-        margin: 10px auto; /* Ortalayarak yerleştirir */
-        width: 80%; /* Ekranın %80'ini kaplar */
-        text-align: center; /* Yazıyı ortalar */
-        padding: 12px 0; /* Daha rahat tıklanabilir hale getirir */
-        font-size: 16px; /* Daha küçük bir yazı boyutu */
+        position: static;
+        display: block;
+        margin: 10px auto;
+        width: 85%; /* Daha geniş bir buton için artırıldı */
+        text-align: center;
+        padding: 15px 0; /* Yüksekliği artırmak için padding büyütüldü */
+        font-size: 18px; /* Mobil cihazlarda daha büyük yazı boyutu */
     }
     header {
-        padding: 20px; /* Header daha geniş hale gelir */
+        padding: 20px;
         text-align: center;
     }
 }
@@ -89,7 +89,8 @@ header .login-link:hover {
 
 
 
-    </style>
+
+</style>
 </head>
 <body>
 
